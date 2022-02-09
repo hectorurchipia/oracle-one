@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<script src="css/style.css"></script>-->
+	<title>Encriptador</title>
+    <style>
+    * {
+        box-sizing: border-box;
+        background-color: coral;
+    }
+    
+    .columna {
+        float: left;
+        width: 33%;
+        padding: 10px;
+        height: 400px;  
+        text-align: center;
+    }
+    
+    
+    .fila { 
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    .fila:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    img.secreto{
+        margin-top: 0px;
+        width: 400px; height: 400px;
+        padding: 1rem;
+  
+    }
+    img.secreto2{
+        margin-top: 0px;
+        width: 250px; height: 250px;
+        padding: 1rem;
+  
+    }
+    img.secretoYo{
+        margin-top: 0px;
+        width: 200px; height: 200px;
+    }
+
+    .submit{
+        border-block-start-color: white;
+    }
+
+    h1{
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size:35px;
+        text-align: center;
+    }
+    p{
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size:25px;
+       
+    }   
+    
+    @media screen and (max-width: 768px) {
+        .columna {
+            width: 100%;
+        }    
+    }
+    
+    </style>
+    
+</head>
+<body>
+    
+    <header>
+        <h1 class="titulo">Secret key....</h1>
+    </header>
+
+    <div class="fila">
+        <div class="columna">
+           <p><img class="secreto" src="imagenes/silencio1.png" alt=""></p>
+        </div>
+        <div class="columna">
+            <!--<input id="entrada"type="text" size="100"/> -->
+            <p>Ingresá el mensaje en minúsculas</p>
+            <textarea id="entrada" rows="5" cols="50" size="150"></textarea>
+            <br>
+            <button type ="submit" id ="encriptar">Encriptar</button>
+            <button type ="submit" id= "desencriptar" >Desencriptar</button>
+            <br><p>Texto encriptado:</p>        
+            <textarea id="encriptado" rows="5" cols="50" size="150"></textarea>
+            <button onclick="copyToClipBoard()">Copiar al porta papeles</button>
+            <br><p>Texto desencriptado:</p>
+            <textarea id="desencriptado"  rows="5" cols="50" size="150"> </textarea>
+            
+        </div>
+        <div class="columna">
+            <img class="secretoYo" src="imagenes/007.png" alt="">
+            <img class="secreto2" src="imagenes/yo.png" alt="">
+            
+         </div>
+    </div>
+</body>
+
+
+<script>
+    function copyToClipBoard() {
+        var content = document.getElementById('encriptado');
+        content.select();
+        document.execCommand('copy');
+        alert("Copied!");
+    }
+	function secreta( palabra){
+        let uno =['ai', 'enter', 'imes', 'ober', 'ufat'];
+        let dos =['a', 'e', 'i', 'o', 'u'];
+        let cDigito = "";
+        let cEncriptado = "";
+        for(var n=0;n < palabra.length; n++){
+            cDigito = palabra[n];
+            for(j=0 ; j<dos.length; j++){
+                if( cDigito == dos[j] ){
+                    cEncriptado += uno[j];
+                    break;
+                }                 
+            }
+            if(j == 5){
+                cEncriptado += cDigito;
+            }
+        }
+        return cEncriptado;
+    }
+	
+    function secreta_inversa(palabra){
+    
+    var salida = palabra;
+    let uno =['ai', 'enter', 'imes', 'ober', 'ufat'];
+    let dos =['a', 'e', 'i', 'o', 'u'];
+    var n = 0;
+    nPos = 0;
+    while(n <= 4) {
+        nPos = salida.indexOf(uno[n]);
+        if( nPos >= 0 ) {
+            salida = salida.replace(uno[n],dos[n]);            
+        } 
+        else{
+            n +=1;
+        }
+    }
+    return salida;
+    }
+
+    function encriptar(elemento){
+		var input = document.querySelector("#entrada");
+		var palabra = input.value;
+        var clave = secreta(palabra);
+		document.getElementById("encriptado").innerHTML = clave;
+    }
+
+	var button = document.querySelector("#encriptar");
+	button.onclick = encriptar;
+	
+	function desencriptar(elemento){
+		var input = document.querySelector("#entrada")
+		var palabra = input.value;
+        var cadOrig = secreta_inversa(palabra);
+
+		document.getElementById("desencriptado").innerHTML = cadOrig;
+
+	}
+	var button = document.querySelector("#desencriptar");
+	button.onclick = desencriptar;
+	
+
+
+</script>
+</html>
